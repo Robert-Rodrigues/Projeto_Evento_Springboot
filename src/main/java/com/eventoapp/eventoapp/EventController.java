@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eventoapp.eventoapp.model.Evento;
 import com.eventosapp.repository.EventoRepository;
@@ -25,5 +26,13 @@ public class EventController {
 	public String form(Evento evento) {
 		er.save(evento);
 		return"redirect:/cadastrarEvento";
+	}
+	
+	@RequestMapping("/eventos")
+	public ModelAndView listaEventos() {
+		ModelAndView mv = new ModelAndView("/index");
+		Iterable<Evento> eventos = er.findAll();
+		mv.addObject("eventos", eventos);
+		return mv;
 	}
 }
